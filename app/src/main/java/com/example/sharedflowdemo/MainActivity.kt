@@ -1,43 +1,24 @@
 package com.example.sharedflowdemo
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.sharedflowdemo.ui.theme.SharedFlowDemoTheme
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.launch
 
-class MainActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContent {
-            SharedFlowDemoTheme {
-                Scaffold( modifier = Modifier.fillMaxSize() ) { innerPadding ->
-                    ScreenSetup(
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
+class DemoViewModel : ViewModel() {
+    private val _sharedFlow = MutableSharedFlow<Int>()
+    val sharedFlow = _sharedFlow.asSharedFlow()
+    init {
+        sharedFlowInit()
+    }
+    fun sharedFlowInit() {
+        viewModelScope.launch {
+            for (i in 1..1000) {
+                delay(2000)
+                _sharedFlow.emit(i)
             }
         }
     }
-}
-
-@Composable
-fun ScreenSetup(
-    modifier: Modifier = Modifier,
-    viewModel: DemoViewModel = viewModel()
-) {
-    MainScreen(modifier)
-}
-
-@Composable
-fun MainScreen(modifier: Modifier = Modifier) {
 }
