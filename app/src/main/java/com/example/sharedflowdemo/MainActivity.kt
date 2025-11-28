@@ -19,9 +19,8 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             SharedFlowDemoTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
+                Scaffold( modifier = Modifier.fillMaxSize() ) { innerPadding ->
+                    ScreenSetup(
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
@@ -31,17 +30,9 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
+fun ScreenSetup(modifier: Modifier = Modifier) {
+    MainScreen(modifier)
 }
-
-@Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
-    SharedFlowDemoTheme {
-        Greeting("Android")
-    }
+fun MainScreen(modifier: Modifier = Modifier) {
 }
